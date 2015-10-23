@@ -6,7 +6,7 @@ typedef struct FCOMPLEX {double r,i;} fcomplex;
 //複素数の四則演算である
 int main(int argc,char** argv){ 
   fcomplex x,y,z;
-  double w;
+  double w,v,a,b;
   int i,j,k,l,n;
   int mem=0;
   int sum=0;
@@ -54,18 +54,43 @@ int main(int argc,char** argv){
   /*以下の複素数を用いたe^(a+bi)のマクローリン展開は
 (e^a)*(e^ib)=(e^a)(cosb+isinb)という式変形を経て求められたものである
 (e^a)を求めwに保存した後(cosb+isinb)を求めvに保存する
-wとvをCmul
+wとvをCmulで計算する
+その後cosxとsinxを求めるものであるが、sinxには((e^ix)-(e^-ix))/2i という形で
+分母に複素数がやってくるのでCdivで計算する
+そうすると求まる
 */
-  while(1){//e^a
-    printf("sum=%.20f \n",sum);
-    mem=sum;
-    w=w/(double)n;
-    sum+=w;
+  putchar('\n');
+  n=2;
+  x=atof(argv[1]);
+  sum=x;
+  y=x;
+  mem=0;
+  while(1){//isinb
+    y*=((-1)*(x*x))/(double)((2*n-1)*(2*n-2));
+    sum+=y;
+    if(y-mem==0){break;}
+    mem=y;
+    printf("sum=%.40f \n",sum);
     n+=1;
-    if(sum-mem==0){break;}
-  }  
+  }
+  printf("sum=%.40f \n",sum);
 
 
+  putchar('\n');
+  n=1;
+  x=atof(argv[1]);
+  sum=1.0;
+  y=1.0;
+  mem=0;
+  while(1){//cosb
+    y*=((-1)*(x*x))/(double)((2*n)*(2*n-1));
+    sum+=y;
+    if(y-mem==0){break;}
+    mem=y;
+    printf("sum=%.40f \n",sum);
+    n+=1;
+  }
+  printf("sum=%.40f \n",sum);
 
 
 
